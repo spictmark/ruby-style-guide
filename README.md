@@ -63,19 +63,6 @@ You can generate a PDF or an HTML copy of this guide using
 [RuboCop][] is a code analyzer, based on this
 style guide.
 
-Translations of the guide are available in the following languages:
-
-* [Chinese Simplified](https://github.com/JuanitoFatas/ruby-style-guide/blob/master/README-zhCN.md)
-* [Chinese Traditional](https://github.com/JuanitoFatas/ruby-style-guide/blob/master/README-zhTW.md)
-* [French](https://github.com/gauthier-delacroix/ruby-style-guide/blob/master/README-frFR.md)
-* [German](https://github.com/arbox/de-ruby-style-guide/blob/master/README-deDE.md)
-* [Japanese](https://github.com/fortissimo1997/ruby-style-guide/blob/japanese/README.ja.md)
-* [Korean](https://github.com/dalzony/ruby-style-guide/blob/master/README-koKR.md)
-* [Portuguese](https://github.com/rubensmabueno/ruby-style-guide/blob/master/README-PT-BR.md)
-* [Russian](https://github.com/arbox/ruby-style-guide/blob/master/README-ruRU.md)
-* [Spanish](https://github.com/alemohamad/ruby-style-guide/blob/master/README-esLA.md)
-* [Vietnamese](https://github.com/CQBinh/ruby-style-guide/blob/master/README-viVN.md)
-
 ## Table of Contents
 
 * [Source Code Layout](#source-code-layout)
@@ -155,22 +142,6 @@ Translations of the guide are available in the following languages:
   puts 'foo', 'bar' # this applies to puts in particular
   ```
 
-* <a name="single-line-classes"></a>
-  Prefer a single-line format for class definitions with no body.
-<sup>[[link](#single-line-classes)]</sup>
-
-  ```Ruby
-  # bad
-  class FooError < StandardError
-  end
-
-  # okish
-  class FooError < StandardError; end
-
-  # good
-  FooError = Class.new(StandardError)
-  ```
-
 * <a name="no-single-line-methods"></a>
   Avoid single-line methods. Although they are somewhat popular in the wild,
   there are a few peculiarities about their definition syntax that make their
@@ -182,26 +153,19 @@ Translations of the guide are available in the following languages:
   # bad
   def too_much; something; something_else; end
 
-  # okish - notice that the first ; is required
+  # bad - notice that the first ; is required
   def no_braces_method; body end
 
-  # okish - notice that the second ; is optional
+  # bad - notice that the second ; is optional
   def no_braces_method; body; end
 
-  # okish - valid syntax, but no ; makes it kind of hard to read
+  # bad - valid syntax, but no ; makes it kind of hard to read
   def some_method() body end
 
   # good
   def some_method
     body
   end
-  ```
-
-  One exception to the rule are empty-body methods.
-
-  ```Ruby
-  # good
-  def no_op; end
   ```
 
 * <a name="spaces-operators"></a>
@@ -213,7 +177,6 @@ Translations of the guide are available in the following languages:
   ```Ruby
   sum = 1 + 2
   a, b = 1, 2
-  class FooError < StandardError; end
   ```
 
   The only exception, regarding operators, is the exponent operator:
@@ -362,25 +325,7 @@ Translations of the guide are available in the following languages:
            else
              calc_something_else
            end
-
-  # good (and a bit more width efficient)
-  kind =
-    case year
-    when 1850..1889 then 'Blues'
-    when 1890..1909 then 'Ragtime'
-    when 1910..1929 then 'New Orleans Jazz'
-    when 1930..1939 then 'Swing'
-    when 1940..1950 then 'Bebop'
-    else 'Jazz'
-    end
-
-  result =
-    if some_cond
-      calc_something
-    else
-      calc_something_else
-    end
-  ```
+           ```
 
 * <a name="empty-lines-between-methods"></a>
   Use empty lines between method definitions and also to break up methods
@@ -451,10 +396,6 @@ Translations of the guide are available in the following languages:
   result = 1 - \
            2
 
-  # good (but still ugly as hell)
-  result = 1 \
-           - 2
-
   long_string = 'First part of the long string' \
                 ' and second part of the long string'
   ```
@@ -478,23 +419,6 @@ Translations of the guide are available in the following languages:
       .four
     ```
 
-  * **(Option B)** When continuing a chained method invocation on another line,
-    include the `.` on the first line to indicate that the
-    expression continues.
-
-    ```Ruby
-    # bad - need to read ahead to the second line to know that the chain continues
-    one.two.three
-      .four
-
-    # good - it's immediately clear that the expression continues beyond the first line
-    one.two.three.
-      four
-    ```
-
-  A discussion on the merits of both alternative styles can be found
-  [here](https://github.com/bbatsov/ruby-style-guide/pull/176).
-
 * <a name="no-double-indent"></a>
     Align the parameters of a method call if they span more than one
     line. When aligning parameters is not appropriate due to line-length
@@ -517,7 +441,7 @@ Translations of the guide are available in the following languages:
         body: source.text)
   end
 
-  # good
+  # bad
   def send_mail(source)
     Mailer.deliver(to: 'bob@example.com',
                    from: 'us@example.com',
@@ -544,69 +468,31 @@ Translations of the guide are available in the following languages:
   # bad - single indent
   menu_item = ['Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam',
     'Baked beans', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam']
-
+    
+  # bad
+  menu_item =
+    ['Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam',
+     'Baked beans', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam']
+     
   # good
   menu_item = [
     'Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam',
     'Baked beans', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam'
   ]
-
-  # good
-  menu_item =
-    ['Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam',
-     'Baked beans', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam']
   ```
 
-* <a name="underscores-in-numerics"></a>
-  Add underscores to large numeric literals to improve their readability.
-<sup>[[link](#underscores-in-numerics)]</sup>
-
-  ```Ruby
-  # bad - how many 0s are there?
-  num = 1000000
-
-  # good - much easier to parse for the human brain
-  num = 1_000_000
-  ```
-
-* <a name="numeric-literal-prefixes"></a>
-  Prefer smallcase letters for numeric literal prefixes.
-  `0o` for octal, `0x` for hexadecimal and `0b` for binary.
-  Do not use `0d` prefix for decimal literals.
-<sup>[[link](#numeric-literal-prefixes)]</sup>
-
-  ```Ruby
-  # bad
-  num = 01234
-  num = 0O1234
-  num = 0X12AB
-  num = 0B10101
-  num = 0D1234
-  num = 0d1234
-
-  # good - easier to separate digits from the prefix
-  num = 0o1234
-  num = 0x12AB
-  num = 0b10101
-  num = 1234
-  ```
-
-* <a name="rdoc-conventions"></a>
-    Use [Rdoc][rdoc] and its conventions for API documentation.  Don't put an
+* <a name="swagger-conventions"></a>
+    Use [Swagger][swagger] and its conventions for API documentation.  Don't put an
     empty line between the comment block and the `def`.
-<sup>[[link](#rdoc-conventions)]</sup>
+<sup>[[link](#swagger-conventions)]</sup>
 
-* <a name="80-character-limits"></a>
-  Limit lines to 80 characters.
-<sup>[[link](#80-character-limits)]</sup>
+* <a name="120-character-limits"></a>
+  Limit lines to 120 characters.
+<sup>[[link](#120-character-limits)]</sup>
 
 * <a name="no-trailing-whitespace"></a>
   Avoid trailing whitespace.
 <sup>[[link](#no-trailing-whitespace)]</sup>
-
-* <a name="newline-eof"></a>
-  End each file with a newline.
-<sup>[[link](#newline-eof)]</sup>
 
 * <a name="no-block-comments"></a>
     Don't use block comments. They cannot be preceded by whitespace and are not
@@ -1882,9 +1768,9 @@ no parameters.
   at_exit { puts 'Goodbye!' }
   ```
 
-* <a name="no-flip-flops"></a>
-  Avoid the use of flip-flops.
-<sup>[[link](#no-flip-flops)]</sup>
+* <a name="no-excessive-coffee-stirring"></a>
+  Avoid excessive coffee stirring.
+<sup>[[link](#no-excessive-coffee-stirring)]</sup>
 
 * <a name="no-nested-conditionals"></a>
   Avoid use of nested conditionals for flow of control.
