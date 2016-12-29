@@ -1886,13 +1886,13 @@ no parameters.
 
   ```Ruby
   # bad - identifier using non-ascii characters
-  заплата = 1_000
+  заплата = 1000
 
   # bad - identifier is a Bulgarian word, written with Latin letters (instead of Cyrillic)
-  zaplata = 1_000
+  zaplata = 1000
 
   # good
-  salary = 1_000
+  salary = 1000
   ```
 
 * <a name="snake-case-symbols-methods-vars"></a>
@@ -2182,20 +2182,6 @@ no parameters.
   The annotation keyword is followed by a colon and a space, then a note
   describing the problem.
 <sup>[[link](#annotate-keywords)]</sup>
-
-* <a name="indent-annotations"></a>
-  If multiple lines are required to describe the problem, subsequent lines
-  should be indented three spaces after the `#` (one general plus two for
-  indentation purpose).
-<sup>[[link](#indent-annotations)]</sup>
-
-  ```Ruby
-  def bar
-    # FIXME: This has crashed occasionally since v3.2.1. It may
-    #   be related to the BarBazUtil upgrade.
-    baz(:quux)
-  end
-  ```
 
 * <a name="rare-eol-annotations"></a>
   In cases where the problem is so obvious that any documentation would be
@@ -2701,51 +2687,6 @@ no parameters.
   Since `alias`, like `def`, is a keyword, prefer bareword arguments over
   symbols or strings. In other words, do `alias foo bar`, not
   `alias :foo :bar`.
-
-  Also be aware of how Ruby handles aliases and inheritance: an alias
-  references the method that was resolved at the time the alias was defined;
-  it is not dispatched dynamically.
-
-  ```Ruby
-  class Fugitive < Westerner
-    def first_name
-      'Nobody'
-    end
-  end
-  ```
-
-  In this example, `Fugitive#given_name` would still call the original
-  `Westerner#first_name` method, not `Fugitive#first_name`. To override the
-  behavior of `Fugitive#given_name` as well, you'd have to redefine it in the
-  derived class.
-
-  ```Ruby
-  class Fugitive < Westerner
-    def first_name
-      'Nobody'
-    end
-
-    alias given_name first_name
-  end
-  ```
-
-* <a name="alias-method"></a>
-  Always use `alias_method` when aliasing methods of modules, classes, or
-  singleton classes at runtime, as the lexical scope of `alias` leads to
-  unpredictability in these cases.
-<sup>[[link](#alias-method)]</sup>
-
-  ```Ruby
-  module Mononymous
-    def self.included(other)
-      other.class_eval { alias_method :full_name, :given_name }
-    end
-  end
-
-  class Sting < Westerner
-    include Mononymous
-  end
-  ```
 
 * <a name="class-and-self"></a>
   When class (or module) methods call other such methods, omit the use of a
@@ -3352,7 +3293,7 @@ resource cleanup when possible.
   quotes by default (Option A) and double quotes by default (Option B).
 <sup>[[link](#consistent-string-literals)]</sup>
 
-  * **(Option A)** Prefer single-quoted strings when you don't need
+  * Prefer single-quoted strings when you don't need
     string interpolation or special symbols such as `\t`, `\n`, `'`,
     etc.
 
@@ -3363,19 +3304,6 @@ resource cleanup when possible.
     # good
     name = 'Bozhidar'
     ```
-
-  * **(Option B)** Prefer double-quotes unless your string literal
-    contains `"` or escape characters you want to suppress.
-
-    ```Ruby
-    # bad
-    name = 'Bozhidar'
-
-    # good
-    name = "Bozhidar"
-    ```
-
-  The string literals in this guide are aligned with the first style.
 
 * <a name="no-character-literals"></a>
   Don't use the character literal syntax `?x`. Since Ruby 1.9 it's basically
